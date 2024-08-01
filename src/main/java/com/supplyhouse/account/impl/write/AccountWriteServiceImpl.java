@@ -6,11 +6,12 @@ import static com.supplyhouse.account.validator.AccountValidator.throwIfNotLinke
 import static com.supplyhouse.account.validator.AccountValidator.throwIfNotTooManyOrders;
 
 import com.supplyhouse.account.Account;
+import com.supplyhouse.account.AccountReadService;
 import com.supplyhouse.account.AccountRepository;
+import com.supplyhouse.account.AccountType;
+import com.supplyhouse.account.AccountWriteService;
 import com.supplyhouse.account.dto.CreateAccountDTO;
 import com.supplyhouse.account.dto.UpdateAccountDTO;
-import com.supplyhouse.account.AccountReadService;
-import com.supplyhouse.account.AccountWriteService;
 import com.supplyhouse.order.Order;
 import com.supplyhouse.order.OrderReadService;
 import jakarta.transaction.Transactional;
@@ -79,6 +80,10 @@ public class AccountWriteServiceImpl implements AccountWriteService {
   @Transactional
   public Account upgrade(Long id) {
     Account account = accountReadService.findById(id);
+
+    if (account.getAccountType() == AccountType.BUSINESS) {
+      return account;
+    }
     LocalDate today = LocalDate.now();
     List<Order> ordersPlacedInLast12Months =
         orderReadService.findAllByAccountAndDateRange(id, today.minusMonths(12), today);
