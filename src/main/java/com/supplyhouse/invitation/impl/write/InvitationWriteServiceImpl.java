@@ -1,7 +1,7 @@
 package com.supplyhouse.invitation.impl.write;
 
 import static com.supplyhouse.invitation.validator.InvitationValidator.throwIdSenderAndReceiverAreSame;
-import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfReceiverAlreadyLinkedToBusiness;
+import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfInvitationStatusIsNotPending;
 import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfSenderIsNotBusiness;
 
 import com.supplyhouse.account.Account;
@@ -45,6 +45,7 @@ public class InvitationWriteServiceImpl implements InvitationWriteService {
   @Transactional
   public Invitation accept(Long id) {
     Invitation invitation = invitationReadService.findById(id);
+    throwIfInvitationStatusIsNotPending(invitation);
     invitation.accept();
     // accountWriteService.link(invitation.getReceiver().getId(), invitation.getSender().getId());
     return invitationRepository.save(invitation);
@@ -54,6 +55,7 @@ public class InvitationWriteServiceImpl implements InvitationWriteService {
   @Transactional
   public Invitation decline(Long id) {
     Invitation invitation = invitationReadService.findById(id);
+    throwIfInvitationStatusIsNotPending(invitation);
     invitation.decline();
     return invitationRepository.save(invitation);
   }
