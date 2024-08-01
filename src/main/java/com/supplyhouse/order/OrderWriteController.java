@@ -1,6 +1,8 @@
 package com.supplyhouse.order;
 
 import com.supplyhouse.order.dto.PlaceOrderDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("orders")
 public class OrderWriteController {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(OrderWriteController.class);
   private final OrderWriteService orderWriteService;
 
   public OrderWriteController(OrderWriteService orderWriteService) {
@@ -22,6 +25,7 @@ public class OrderWriteController {
     try {
       return ResponseEntity.ok(orderWriteService.create(placeOrderDTO));
     } catch (Exception e) {
+      LOGGER.error(e.getMessage());
       return ResponseEntity.badRequest().build();
     }
   }
