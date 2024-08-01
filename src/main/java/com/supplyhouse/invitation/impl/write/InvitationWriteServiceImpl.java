@@ -47,7 +47,6 @@ public class InvitationWriteServiceImpl implements InvitationWriteService {
     Invitation invitation = invitationReadService.findById(id);
     throwIfInvitationStatusIsNotPending(invitation);
     invitation.accept();
-    // accountWriteService.link(invitation.getReceiver().getId(), invitation.getSender().getId());
     return invitationRepository.save(invitation);
   }
 
