@@ -1,9 +1,11 @@
 package com.supplyhouse.invitation.impl.write;
 
+import static com.supplyhouse.invitation.validator.InvitationValidator.throwIdSenderAndReceiverAreSame;
+import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfReceiverAlreadyLinkedToBusiness;
+import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfSenderIsNotBusiness;
+
 import com.supplyhouse.account.Account;
 import com.supplyhouse.account.AccountReadService;
-import com.supplyhouse.account.AccountType;
-import com.supplyhouse.exception.PreconditionFailedException;
 import com.supplyhouse.invitation.Invitation;
 import com.supplyhouse.invitation.InvitationReadService;
 import com.supplyhouse.invitation.InvitationRepository;
@@ -15,30 +17,25 @@ import org.springframework.stereotype.Service;
 public class InvitationWriteServiceImpl implements InvitationWriteService {
 
   private final InvitationRepository invitationRepository;
-  private final AccountReadService accountReadService;
   private final InvitationReadService invitationReadService;
+  private final AccountReadService accountReadService;
 
   public InvitationWriteServiceImpl(
       InvitationRepository invitationRepository,
-      AccountReadService accountReadService,
-      InvitationReadService invitationReadService) {
+      InvitationReadService invitationReadService,
+      AccountReadService accountReadService) {
     this.invitationRepository = invitationRepository;
-    this.accountReadService = accountReadService;
     this.invitationReadService = invitationReadService;
+    this.accountReadService = accountReadService;
   }
 
   @Override
   @Transactional
   public Invitation send(Long senderId, Long receiverId) {
+    throwIdSenderAndReceiverAreSame(senderId, receiverId);
     Account sender = accountReadService.findById(senderId);
+    throwIfSenderIsNotBusiness(senderId, receiverId, sender);
     Account receiver = accountReadService.findById(receiverId);
-
-    if (sender.getAccountType() != AccountType.BUSINESS) {
-      throw new PreconditionFailedException(
-          "PRECONDITION_FAILED",
-          "Account [%d] is not a business account. Hence, they can not send an invitation to account [%d]."
-              .formatted(senderId, receiverId));
-    }
     Invitation invitation = new Invitation();
     invitation.create(sender, receiver);
     return invitationRepository.save(invitation);
@@ -49,6 +46,7 @@ public class InvitationWriteServiceImpl implements InvitationWriteService {
   public Invitation accept(Long id) {
     Invitation invitation = invitationReadService.findById(id);
     invitation.accept();
+    // accountWriteService.link(invitation.getReceiver().getId(), invitation.getSender().getId());
     return invitationRepository.save(invitation);
   }
 

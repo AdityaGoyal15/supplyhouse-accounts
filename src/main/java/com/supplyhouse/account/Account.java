@@ -1,5 +1,6 @@
 package com.supplyhouse.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.supplyhouse.account.dto.CreateAccountDTO;
 import com.supplyhouse.account.dto.UpdateAccountDTO;
 import com.supplyhouse.invitation.Invitation;
@@ -40,12 +41,15 @@ public class Account {
   private LocalDate createdOn;
 
   @OneToMany(mappedBy = "account")
+  @JsonIgnore
   private List<Order> orders = new ArrayList<>();
 
   @OneToMany(mappedBy = "sender")
+  @JsonIgnore
   private List<Invitation> invitationsSent = new ArrayList<>();
 
   @OneToMany(mappedBy = "receiver")
+  @JsonIgnore
   private List<Invitation> invitationsReceived = new ArrayList<>();
 
   private boolean shareAllHistory;

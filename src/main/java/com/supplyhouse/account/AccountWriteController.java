@@ -31,11 +31,6 @@ public class AccountWriteController {
     return ResponseEntity.ok(accountWriteService.update(id, updateAccountDTO));
   }
 
-  @PutMapping("{id}/link/{businessAccountId}")
-  public ResponseEntity<Account> link(@PathVariable Long id, @PathVariable Long businessAccountId) {
-    return ResponseEntity.ok(accountWriteService.link(id, businessAccountId));
-  }
-
   @PutMapping("{id}/unlink/{businessAccountId}")
   public ResponseEntity<Account> unlink(
       @PathVariable Long id, @PathVariable Long businessAccountId) {

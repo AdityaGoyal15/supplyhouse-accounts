@@ -4,5 +4,5 @@ import com.supplyhouse.order.dto.PlaceOrderDTO;
 
 public interface OrderWriteService {
 
-  Order place(PlaceOrderDTO order);
+  Order create(PlaceOrderDTO placeOrderDTO);
 }

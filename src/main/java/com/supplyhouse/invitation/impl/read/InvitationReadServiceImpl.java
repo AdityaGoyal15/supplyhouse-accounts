@@ -24,4 +24,9 @@ public class InvitationReadServiceImpl implements InvitationReadService {
                 new EntityNotFoundException(
                     "NOT_FOUND", "Invitation [%d] not found.".formatted(id)));
   }
+
+  @Override
+  public Invitation findBySenderIdAndReceiverId(Long businessAccountId, Long accountId) {
+    return invitationRepository.findBySenderIdAndReceiverId(businessAccountId, accountId);
+  }
 }

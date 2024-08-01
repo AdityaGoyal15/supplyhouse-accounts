@@ -1,4 +1,4 @@
-package com.supplyhouse.account.impl.validator;
+package com.supplyhouse.account.validator;
 
 import com.supplyhouse.account.Account;
 import com.supplyhouse.account.AccountType;

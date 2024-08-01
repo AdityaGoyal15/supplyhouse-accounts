@@ -1,6 +1,5 @@
 package com.supplyhouse.order;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.supplyhouse.account.Account;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +21,6 @@ public class Order {
 
   @ManyToOne
   @JoinColumn(name = "account_id", nullable = false, updatable = false)
-  @JsonIgnore
   private Account account;
 
   @Column(nullable = false, updatable = false)

@@ -23,11 +23,11 @@ public class OrderWriteServiceImpl implements OrderWriteService {
 
   @Override
   @Transactional
-  public Order place(PlaceOrderDTO placeOrderDTO) {
+  public Order create(PlaceOrderDTO placeOrderDTO) {
     Long accountId = placeOrderDTO.accountId();
     Account account = accountReadService.findById(accountId);
-    Order newOrder = new Order();
-    newOrder.create(account);
-    return orderRepository.save(newOrder);
+    Order order = new Order();
+    order.create(account);
+    return orderRepository.save(order);
   }
 }

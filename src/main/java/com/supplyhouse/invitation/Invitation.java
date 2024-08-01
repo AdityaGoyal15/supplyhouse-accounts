@@ -1,6 +1,5 @@
 package com.supplyhouse.invitation;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.supplyhouse.account.Account;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,12 +24,10 @@ public class Invitation {
 
   @ManyToOne
   @JoinColumn(name = "sender_id", nullable = false, updatable = false)
-  @JsonIgnore
   private Account sender;
 
   @ManyToOne(cascade = CascadeType.MERGE)
   @JoinColumn(name = "receiver_id", nullable = false, updatable = false)
-  @JsonIgnore
   private Account receiver;
 
   @Column(nullable = false)

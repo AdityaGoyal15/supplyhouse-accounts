@@ -1,9 +1,9 @@
 package com.supplyhouse.account.impl.write;
 
-import static com.supplyhouse.account.impl.validator.AccountValidator.throwIfAlreadyLinked;
-import static com.supplyhouse.account.impl.validator.AccountValidator.throwIfNotBusinessAccount;
-import static com.supplyhouse.account.impl.validator.AccountValidator.throwIfNotLinked;
-import static com.supplyhouse.account.impl.validator.AccountValidator.throwIfNotTooManyOrders;
+import static com.supplyhouse.account.validator.AccountValidator.throwIfAlreadyLinked;
+import static com.supplyhouse.account.validator.AccountValidator.throwIfNotBusinessAccount;
+import static com.supplyhouse.account.validator.AccountValidator.throwIfNotLinked;
+import static com.supplyhouse.account.validator.AccountValidator.throwIfNotTooManyOrders;
 
 import com.supplyhouse.account.Account;
 import com.supplyhouse.account.AccountRepository;
@@ -81,7 +81,7 @@ public class AccountWriteServiceImpl implements AccountWriteService {
     Account account = accountReadService.findById(id);
     LocalDate today = LocalDate.now();
     List<Order> ordersPlacedInLast12Months =
-        orderReadService.findOrdersByAccountAndDateRange(id, today.minusMonths(12), today);
+        orderReadService.findAllByAccountAndDateRange(id, today.minusMonths(12), today);
     throwIfNotTooManyOrders(id, ordersPlacedInLast12Months);
     account.upgrade();
     return accountRepository.save(account);
