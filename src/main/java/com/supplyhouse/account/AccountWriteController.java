@@ -22,23 +22,39 @@ public class AccountWriteController {
 
   @PostMapping
   public ResponseEntity<Account> create(@RequestBody CreateAccountDTO createAccountDTO) {
-    return ResponseEntity.ok(accountWriteService.create(createAccountDTO));
+    try {
+      return ResponseEntity.ok(accountWriteService.create(createAccountDTO));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @PutMapping("{id}")
   public ResponseEntity<Account> update(
       @PathVariable Long id, @RequestBody UpdateAccountDTO updateAccountDTO) {
-    return ResponseEntity.ok(accountWriteService.update(id, updateAccountDTO));
+    try {
+      return ResponseEntity.ok(accountWriteService.update(id, updateAccountDTO));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @PutMapping("{id}/unlink/{businessAccountId}")
   public ResponseEntity<Account> unlink(
       @PathVariable Long id, @PathVariable Long businessAccountId) {
-    return ResponseEntity.ok(accountWriteService.unLink(id, businessAccountId));
+    try {
+      return ResponseEntity.ok(accountWriteService.unLink(id, businessAccountId));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @PutMapping("/{id}/upgrade")
   public ResponseEntity<Account> upgrade(@PathVariable Long id) {
-    return ResponseEntity.ok(accountWriteService.upgrade(id));
+    try {
+      return ResponseEntity.ok(accountWriteService.upgrade(id));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 }

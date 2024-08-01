@@ -17,7 +17,11 @@ public class AccountReadController {
   }
 
   @GetMapping("{id}")
-  public ResponseEntity<Account> getAccount(@PathVariable Long id) {
-    return ResponseEntity.ok(accountReadService.findById(id));
+  public ResponseEntity<Account> findById(@PathVariable Long id) {
+    try {
+      return ResponseEntity.ok(accountReadService.findById(id));
+    } catch (Exception e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 }

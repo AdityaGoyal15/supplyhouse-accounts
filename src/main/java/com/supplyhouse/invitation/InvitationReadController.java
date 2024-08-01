@@ -18,6 +18,10 @@ public class InvitationReadController {
 
   @GetMapping("{id}")
   public ResponseEntity<Invitation> findById(@PathVariable Long id) {
-    return ResponseEntity.ok(invitationReadService.findById(id));
+    try {
+      return ResponseEntity.ok(invitationReadService.findById(id));
+    } catch (Exception e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 }

@@ -19,6 +19,10 @@ public class OrderWriteController {
 
   @PostMapping
   public ResponseEntity<Order> create(@RequestBody PlaceOrderDTO placeOrderDTO) {
-    return ResponseEntity.ok(orderWriteService.create(placeOrderDTO));
+    try {
+      return ResponseEntity.ok(orderWriteService.create(placeOrderDTO));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 }

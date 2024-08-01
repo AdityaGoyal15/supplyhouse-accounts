@@ -19,13 +19,23 @@ public class OrderReadController {
 
   @GetMapping("account/{accountId}")
   public ResponseEntity<List<Order>> findAllByAccountId(@PathVariable Long accountId) {
-    return ResponseEntity.ok(orderReadService.findAllByAccountId(accountId));
+    try {
+      return ResponseEntity.ok(orderReadService.findAllByAccountId(accountId));
+    } catch (Exception e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @GetMapping("account/{accountId}/businessAccount/{businessAccountId}")
   public ResponseEntity<List<Order>> findAllByAccountIdAndBusinessAccountId(
       @PathVariable Long accountId, @PathVariable Long businessAccountId) {
-    return ResponseEntity.ok(
-        orderReadService.findAllByAccountIdAndBusinessAccountId(accountId, businessAccountId));
+    try {
+      return ResponseEntity.ok(
+          orderReadService.findAllByAccountIdAndBusinessAccountId(accountId, businessAccountId));
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.badRequest().build();
+    } catch (Exception e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 }
