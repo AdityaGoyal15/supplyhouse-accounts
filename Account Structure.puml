@@ -1,0 +1,227 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.supplyhouse.account.Account",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_28681327 { 
+   	label=supplyhouse
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1055777103 { 
+   	label=order
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Order215530620[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Order</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   account: Account [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   placedOn: LocalDate [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ create(account: Account)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1724578282 { 
+   	label=invitation
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Invitation1120202019[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Invitation</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   receiver: Account [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   respondedOn: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   sender: Account [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   sentOn: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   status: InvitationStatus [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ accept()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ create(sender: Account, receiver: Account)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ decline()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_959720240 { 
+   	label=account
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Account936701725[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Account</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   accountType: AccountType [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   businessAccountId: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   createdOn: LocalDate [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   email: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   holderName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   invitationsReceived: List&lt;Invitation&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   invitationsSent: List&lt;Invitation&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   orders: List&lt;Order&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   shareAllHistory: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ create(createAccountDTO: CreateAccountDTO)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ link(businessAccountId: Long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ unlink()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(updateAccountDTO: UpdateAccountDTO)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ upgrade()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CreateAccountDTO1464314284[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CreateAccountDTO</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   email: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   holderName: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ email(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ holderName(): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+UpdateAccountDTO1464314284[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)UpdateAccountDTO</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   email: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   holderName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   shareAllHistory: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ email(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ holderName(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shareAllHistory(): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+Account936701725 -> Invitation1120202019[label="invitationsReceived
+[0..*]"];
+Account936701725 -> Invitation1120202019[label="invitationsSent
+[0..*]"];
+Account936701725 -> Order215530620[label="orders
+[0..*]"];
+Invitation1120202019 -> Account936701725[label="receiver
+[0..1]"];
+Invitation1120202019 -> Account936701725[label="sender
+[0..1]"];
+Order215530620 -> Account936701725[label="account
+[0..1]"];
+    
+}
+@enduml
