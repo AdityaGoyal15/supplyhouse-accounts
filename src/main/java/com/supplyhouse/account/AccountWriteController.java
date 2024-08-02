@@ -28,7 +28,7 @@ public class AccountWriteController {
     try {
       return ResponseEntity.ok(accountWriteService.create(createAccountDTO));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.badRequest().build();
     }
   }
@@ -39,7 +39,7 @@ public class AccountWriteController {
     try {
       return ResponseEntity.ok(accountWriteService.update(id, updateAccountDTO));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.badRequest().build();
     }
   }
@@ -49,7 +49,7 @@ public class AccountWriteController {
     try {
       return ResponseEntity.ok(accountWriteService.unLink(id));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.badRequest().build();
     }
   }
@@ -59,7 +59,7 @@ public class AccountWriteController {
     try {
       return ResponseEntity.ok(accountWriteService.upgrade(id));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.badRequest().build();
     }
   }

@@ -25,7 +25,7 @@ public class OrderReadController {
     try {
       return ResponseEntity.ok(orderReadService.findAllByAccountId(accountId));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.notFound().build();
     }
   }

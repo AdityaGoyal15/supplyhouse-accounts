@@ -24,7 +24,7 @@ public class AccountReadController {
     try {
       return ResponseEntity.ok(accountReadService.findById(id));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.notFound().build();
     }
   }

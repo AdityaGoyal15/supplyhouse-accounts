@@ -1,5 +1,6 @@
 package com.supplyhouse.invitation.impl.write;
 
+import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfAlreadyLinked;
 import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfInvitationStatusIsNotPending;
 import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfReceiverIsABusiness;
 import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfSenderAndReceiverAreSame;
@@ -48,6 +49,7 @@ public class InvitationWriteServiceImpl implements InvitationWriteService {
     Account sender = accountReadService.findById(senderId);
     throwIfSenderIsNotABusiness(receiverId, sender);
     Account receiver = accountReadService.findById(receiverId);
+    throwIfAlreadyLinked(receiver, sender.getId());
     throwIfReceiverIsABusiness(senderId, receiver);
     Invitation invitation = new Invitation();
     invitation.create(sender, receiver);

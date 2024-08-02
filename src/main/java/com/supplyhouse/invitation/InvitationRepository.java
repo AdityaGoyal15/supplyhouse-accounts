@@ -19,8 +19,8 @@ public interface InvitationRepository extends JpaRepository<Invitation, Long> {
   @Query(
       "SELECT i "
           + "FROM Invitation i "
-          + "WHERE i.receiver = :receiverId "
-          + "  AND i.sender = :senderId "
+          + "WHERE i.receiver.id = :receiverId "
+          + "  AND i.sender.id = :senderId "
           + "  AND i.status = 'ACCEPTED' "
           + "ORDER BY i.respondedOn DESC")
   List<Invitation> findAllAcceptedBySenderIdAndReceiverIdOrderByRespondedOnDesc(

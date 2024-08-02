@@ -24,7 +24,7 @@ public class InvitationReadController {
     try {
       return ResponseEntity.ok(invitationReadService.findById(id));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.notFound().build();
     }
   }

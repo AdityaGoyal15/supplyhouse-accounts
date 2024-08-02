@@ -27,7 +27,7 @@ public class InvitationWriteController {
     try {
       return ResponseEntity.ok(invitationWriteService.send(sendInvitationDto));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.badRequest().build();
     }
   }
@@ -37,7 +37,7 @@ public class InvitationWriteController {
     try {
       return ResponseEntity.ok(invitationWriteService.accept(id));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.badRequest().build();
     }
   }
@@ -47,7 +47,7 @@ public class InvitationWriteController {
     try {
       return ResponseEntity.ok(invitationWriteService.decline(id));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.badRequest().build();
     }
   }

@@ -25,7 +25,7 @@ public class OrderWriteController {
     try {
       return ResponseEntity.ok(orderWriteService.create(createOrderDTO));
     } catch (Exception e) {
-      LOGGER.error(e.getMessage());
+      LOGGER.error(e.getMessage(), e);
       return ResponseEntity.badRequest().build();
     }
   }
