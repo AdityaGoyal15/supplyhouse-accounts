@@ -5,10 +5,7 @@ import java.util.List;
 
 public interface OrderReadService {
 
-    List<Order> findAllByAccountAndDateRange(
-            Long accountId, LocalDate startDate, LocalDate endDate);
+  List<Order> findAllByAccountId(Long accountId);
 
-    List<Order> findAllByAccountId(Long accountId);
-
-    List<Order> findAllByAccountIdAndBusinessAccountId(Long businessAccountId, Long accountId);
+  List<Order> findAllByAccountAndDateRange(Long accountId, LocalDate startDate, LocalDate endDate);
 }

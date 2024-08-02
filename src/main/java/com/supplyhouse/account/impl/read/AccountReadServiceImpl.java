@@ -5,6 +5,8 @@ import com.supplyhouse.account.AccountReadService;
 import com.supplyhouse.account.AccountRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountReadServiceImpl implements AccountReadService {
 
@@ -19,5 +21,10 @@ public class AccountReadServiceImpl implements AccountReadService {
     return accountRepository
         .findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Account ID [%d] not found".formatted(id)));
+  }
+
+  @Override
+  public List<Account> findAllSubAccountsById(Long id) {
+    return accountRepository.findAllSubAccountsById(id);
   }
 }

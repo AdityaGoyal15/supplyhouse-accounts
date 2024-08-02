@@ -1,8 +1,8 @@
 package com.supplyhouse.order;
 
-import com.supplyhouse.order.dto.PlaceOrderDTO;
+import com.supplyhouse.order.dto.CreateOrderDTO;
 
 public interface OrderWriteService {
 
-  Order create(PlaceOrderDTO placeOrderDTO);
+  Order create(CreateOrderDTO createOrderDTO);
 }

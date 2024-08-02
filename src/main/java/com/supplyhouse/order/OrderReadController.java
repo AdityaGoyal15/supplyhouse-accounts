@@ -29,16 +29,4 @@ public class OrderReadController {
       return ResponseEntity.notFound().build();
     }
   }
-
-  @GetMapping("account/{accountId}/businessAccount/{businessAccountId}")
-  public ResponseEntity<List<Order>> findAllByAccountIdAndBusinessAccountId(
-      @PathVariable Long accountId, @PathVariable Long businessAccountId) {
-    try {
-      return ResponseEntity.ok(
-          orderReadService.findAllByAccountIdAndBusinessAccountId(accountId, businessAccountId));
-    } catch (Exception e) {
-      LOGGER.error(e.getMessage());
-      return ResponseEntity.badRequest().build();
-    }
-  }
 }

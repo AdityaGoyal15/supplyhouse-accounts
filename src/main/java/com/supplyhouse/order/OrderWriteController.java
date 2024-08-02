@@ -1,6 +1,6 @@
 package com.supplyhouse.order;
 
-import com.supplyhouse.order.dto.PlaceOrderDTO;
+import com.supplyhouse.order.dto.CreateOrderDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +21,9 @@ public class OrderWriteController {
   }
 
   @PostMapping
-  public ResponseEntity<Order> create(@RequestBody PlaceOrderDTO placeOrderDTO) {
+  public ResponseEntity<Order> create(@RequestBody CreateOrderDTO createOrderDTO) {
     try {
-      return ResponseEntity.ok(orderWriteService.create(placeOrderDTO));
+      return ResponseEntity.ok(orderWriteService.create(createOrderDTO));
     } catch (Exception e) {
       LOGGER.error(e.getMessage());
       return ResponseEntity.badRequest().build();

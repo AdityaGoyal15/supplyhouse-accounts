@@ -4,12 +4,14 @@ import static com.supplyhouse.order.validator.OrderValidator.throwIfAccountIsNot
 
 import com.supplyhouse.account.Account;
 import com.supplyhouse.account.AccountReadService;
+import com.supplyhouse.account.AccountType;
 import com.supplyhouse.invitation.Invitation;
 import com.supplyhouse.invitation.InvitationReadService;
 import com.supplyhouse.order.Order;
 import com.supplyhouse.order.OrderReadService;
 import com.supplyhouse.order.OrderRepository;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -35,33 +37,43 @@ public class OrderReadServiceImpl implements OrderReadService {
     return orderRepository.findAllByAccountAndDateRange(accountId, startDate, endDate);
   }
 
+  /**
+   * Queries orders by accountId. If account is a regular account, then returns only the orders
+   * placed by accountId. If account is a business account, then returns orders placed by accountId
+   * as well as order placed by sub-accounts based on their consent to share all order history.
+   */
   @Override
   public List<Order> findAllByAccountId(Long accountId) {
-    return orderRepository.findAllByAccountId(accountId);
-  }
-
-  @Override
-  public List<Order> findAllByAccountIdAndBusinessAccountId(
-      Long accountId, Long businessAccountId) {
     Account account = accountReadService.findById(accountId);
-    throwIfAccountIsNotLinkedToBusinessAccount(businessAccountId, account);
-    LocalDate startDate = evaluateStartDate(businessAccountId, account);
-    LocalDate endDate = LocalDate.now();
-    return orderRepository.findAllByBusinessAccountIdAndDateRange(
-        businessAccountId, startDate, endDate);
+
+    if (account.getAccountType() == AccountType.REGULAR) {
+      return account.getOrders();
+    }
+    List<Account> subAccounts = accountReadService.findAllSubAccountsById(accountId);
+    List<Order> orders = new ArrayList<>(account.getOrders());
+
+    subAccounts.forEach(
+        subAccount -> {
+          LocalDate startDate = evaluateStartDate(accountId, subAccount);
+          LocalDate endDate = LocalDate.now();
+          List<Order> subAccountOrders =
+              findAllByAccountAndDateRange(subAccount.getId(), startDate, endDate);
+          orders.addAll(subAccountOrders);
+        });
+    return orders;
   }
 
   /**
-   * Calculates date to query orders placed on or after. Start date is calculated based on consent
-   * to share all order history since the day account was created or orders starting from when
-   * account was linked to business account.
+   * Returns date to query orders placed on or after. Start date is calculated based on consent to
+   * share all order history since the day account was created or orders starting from when account
+   * was linked to business account.
    */
-  private LocalDate evaluateStartDate(Long businessAccountId, Account account) {
-    if (account.isShareAllHistory()) {
-      return account.getCreatedOn();
+  private LocalDate evaluateStartDate(Long accountId, Account subAccount) {
+    if (subAccount.isShareAllHistory()) {
+      return subAccount.getCreatedOn();
     } else {
       Invitation invitation =
-          invitationReadService.findBySenderIdAndReceiverId(businessAccountId, account.getId());
+          invitationReadService.findBySenderIdAndReceiverId(accountId, subAccount.getId());
       return invitation.getRespondedOn();
     }
   }
