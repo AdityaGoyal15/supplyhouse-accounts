@@ -3,6 +3,7 @@ package com.supplyhouse.invitation.impl.read;
 import com.supplyhouse.invitation.Invitation;
 import com.supplyhouse.invitation.InvitationReadService;
 import com.supplyhouse.invitation.InvitationRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +24,16 @@ public class InvitationReadServiceImpl implements InvitationReadService {
   }
 
   @Override
-  public Invitation findBySenderIdAndReceiverId(Long businessAccountId, Long accountId) {
-    return invitationRepository.findBySenderIdAndReceiverId(businessAccountId, accountId);
+  public Invitation findLatestAcceptedBySenderIdAndReceiverId(Long senderId, Long receiverId) {
+    List<Invitation> acceptedInvitations =
+        invitationRepository.findAllAcceptedBySenderIdAndReceiverIdOrderByRespondedOnDesc(
+            senderId, receiverId);
+    return acceptedInvitations.isEmpty() ? null : acceptedInvitations.get(0);
+  }
+
+  @Override
+  public Invitation findPendingInvitationBySenderIdAndReceiverId(
+      Long senderId, Long receiverId, String status) {
+    return invitationRepository.findPendingBySenderIdAndReceiverId(senderId, receiverId);
   }
 }

@@ -55,6 +55,10 @@ public class Invitation {
     return sentOn;
   }
 
+  public void setSentOn(LocalDate sentOn) {
+    this.sentOn = sentOn;
+  }
+
   public LocalDate getRespondedOn() {
     return respondedOn;
   }

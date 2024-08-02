@@ -1,7 +1,5 @@
 package com.supplyhouse.order.impl.read;
 
-import static com.supplyhouse.order.validator.OrderValidator.throwIfAccountIsNotLinkedToBusinessAccount;
-
 import com.supplyhouse.account.Account;
 import com.supplyhouse.account.AccountReadService;
 import com.supplyhouse.account.AccountType;
@@ -73,7 +71,7 @@ public class OrderReadServiceImpl implements OrderReadService {
       return subAccount.getCreatedOn();
     } else {
       Invitation invitation =
-          invitationReadService.findBySenderIdAndReceiverId(accountId, subAccount.getId());
+          invitationReadService.findLatestAcceptedBySenderIdAndReceiverId(accountId, subAccount.getId());
       return invitation.getRespondedOn();
     }
   }

@@ -1,8 +1,12 @@
 package com.supplyhouse.invitation;
 
+
 public interface InvitationReadService {
 
   Invitation findById(Long id);
 
-  Invitation findBySenderIdAndReceiverId(Long businessAccountId, Long accountId);
+  Invitation findLatestAcceptedBySenderIdAndReceiverId(Long senderId, Long receiverId);
+
+  Invitation findPendingInvitationBySenderIdAndReceiverId(
+      Long senderId, Long receiverId, String status);
 }

@@ -1,17 +1,20 @@
 package com.supplyhouse.invitation.impl.write;
 
-import static com.supplyhouse.invitation.validator.InvitationValidator.throwIdSenderAndReceiverAreSame;
 import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfInvitationStatusIsNotPending;
-import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfSenderIsNotBusiness;
+import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfReceiverIsABusiness;
+import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfSenderAndReceiverAreSame;
+import static com.supplyhouse.invitation.validator.InvitationValidator.throwIfSenderIsNotABusiness;
 
 import com.supplyhouse.account.Account;
 import com.supplyhouse.account.AccountReadService;
 import com.supplyhouse.invitation.Invitation;
 import com.supplyhouse.invitation.InvitationReadService;
 import com.supplyhouse.invitation.InvitationRepository;
+import com.supplyhouse.invitation.InvitationStatus;
 import com.supplyhouse.invitation.InvitationWriteService;
 import com.supplyhouse.invitation.dto.SendInvitationDto;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,13 +38,25 @@ public class InvitationWriteServiceImpl implements InvitationWriteService {
   public Invitation send(SendInvitationDto sendInvitationDto) {
     Long senderId = sendInvitationDto.senderId();
     Long receiverId = sendInvitationDto.receiverId();
-    throwIdSenderAndReceiverAreSame(senderId, receiverId);
+    Invitation pendingInvitation = findPendingInvitation(senderId, receiverId);
+
+    if (pendingInvitation != null) {
+      pendingInvitation.setSentOn(LocalDate.now());
+      return invitationRepository.save(pendingInvitation);
+    }
+    throwIfSenderAndReceiverAreSame(senderId, receiverId);
     Account sender = accountReadService.findById(senderId);
-    throwIfSenderIsNotBusiness(senderId, receiverId, sender);
+    throwIfSenderIsNotABusiness(receiverId, sender);
     Account receiver = accountReadService.findById(receiverId);
+    throwIfReceiverIsABusiness(senderId, receiver);
     Invitation invitation = new Invitation();
     invitation.create(sender, receiver);
     return invitationRepository.save(invitation);
+  }
+
+  private Invitation findPendingInvitation(Long senderId, Long receiverId) {
+    return invitationReadService.findPendingInvitationBySenderIdAndReceiverId(
+        senderId, receiverId, InvitationStatus.PENDING.name());
   }
 
   @Override
