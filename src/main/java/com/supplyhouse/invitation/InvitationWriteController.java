@@ -1,5 +1,6 @@
 package com.supplyhouse.invitation;
 
+import com.supplyhouse.invitation.dto.SendInvitationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,10 @@ public class InvitationWriteController {
     this.invitationWriteService = invitationWriteService;
   }
 
-  @PostMapping("{senderId}/{receiverId}")
-  public ResponseEntity<Invitation> send(
-      @PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId) {
+  @PostMapping
+  public ResponseEntity<Invitation> send(SendInvitationDto sendInvitationDto) {
     try {
-      return ResponseEntity.ok(invitationWriteService.send(senderId, receiverId));
+      return ResponseEntity.ok(invitationWriteService.send(sendInvitationDto));
     } catch (Exception e) {
       LOGGER.error(e.getMessage());
       return ResponseEntity.badRequest().build();

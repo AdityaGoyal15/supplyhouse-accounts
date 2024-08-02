@@ -10,6 +10,7 @@ import com.supplyhouse.invitation.Invitation;
 import com.supplyhouse.invitation.InvitationReadService;
 import com.supplyhouse.invitation.InvitationRepository;
 import com.supplyhouse.invitation.InvitationWriteService;
+import com.supplyhouse.invitation.dto.SendInvitationDto;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,9 @@ public class InvitationWriteServiceImpl implements InvitationWriteService {
 
   @Override
   @Transactional
-  public Invitation send(Long senderId, Long receiverId) {
+  public Invitation send(SendInvitationDto sendInvitationDto) {
+    Long senderId = sendInvitationDto.senderId();
+    Long receiverId = sendInvitationDto.receiverId();
     throwIdSenderAndReceiverAreSame(senderId, receiverId);
     Account sender = accountReadService.findById(senderId);
     throwIfSenderIsNotBusiness(senderId, receiverId, sender);
