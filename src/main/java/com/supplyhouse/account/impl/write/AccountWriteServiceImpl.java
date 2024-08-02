@@ -1,8 +1,5 @@
 package com.supplyhouse.account.impl.write;
 
-import static com.supplyhouse.account.validator.AccountValidator.throwIfAlreadyLinked;
-import static com.supplyhouse.account.validator.AccountValidator.throwIfNotBusinessAccount;
-import static com.supplyhouse.account.validator.AccountValidator.throwIfNotLinked;
 import static com.supplyhouse.account.validator.AccountValidator.throwIfNotTooManyOrders;
 
 import com.supplyhouse.account.Account;
@@ -22,16 +19,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountWriteServiceImpl implements AccountWriteService {
 
-  private final AccountReadService accountReadService;
   private final AccountRepository accountRepository;
+  private final AccountReadService accountReadService;
   private final OrderReadService orderReadService;
 
   public AccountWriteServiceImpl(
-      AccountReadService accountReadService,
       AccountRepository accountRepository,
+      AccountReadService accountReadService,
       OrderReadService orderReadService) {
-    this.accountReadService = accountReadService;
     this.accountRepository = accountRepository;
+    this.accountReadService = accountReadService;
     this.orderReadService = orderReadService;
   }
 
@@ -53,31 +50,6 @@ public class AccountWriteServiceImpl implements AccountWriteService {
 
   @Override
   @Transactional
-  public Account link(Long id, Long businessAccountId) {
-    Account account = accountReadService.findById(id);
-
-    if (account.getBusinessAccountId().equals(businessAccountId)) {
-      return account;
-    }
-
-    Account businessAccount = accountReadService.findById(businessAccountId);
-    throwIfAlreadyLinked(businessAccountId, account);
-    throwIfNotBusinessAccount(businessAccount);
-    account.link(businessAccountId);
-    return accountRepository.save(account);
-  }
-
-  @Override
-  @Transactional
-  public Account unLink(Long id, Long businessAccountId) {
-    Account account = accountReadService.findById(id);
-    throwIfNotLinked(id, businessAccountId, account);
-    account.unlink();
-    return accountRepository.save(account);
-  }
-
-  @Override
-  @Transactional
   public Account upgrade(Long id) {
     Account account = accountReadService.findById(id);
 
@@ -89,6 +61,14 @@ public class AccountWriteServiceImpl implements AccountWriteService {
         orderReadService.findAllByAccountAndDateRange(id, today.minusMonths(12), today);
     throwIfNotTooManyOrders(id, ordersPlacedInLast12Months);
     account.upgrade();
+    return accountRepository.save(account);
+  }
+
+  @Override
+  @Transactional
+  public Account unLink(Long id) {
+    Account account = accountReadService.findById(id);
+    account.unlink();
     return accountRepository.save(account);
   }
 }

@@ -44,11 +44,10 @@ public class AccountWriteController {
     }
   }
 
-  @PutMapping("{id}/unlink/{businessAccountId}")
-  public ResponseEntity<Account> unlink(
-      @PathVariable Long id, @PathVariable Long businessAccountId) {
+  @PutMapping("{id}/unlink")
+  public ResponseEntity<Account> unlink(@PathVariable Long id) {
     try {
-      return ResponseEntity.ok(accountWriteService.unLink(id, businessAccountId));
+      return ResponseEntity.ok(accountWriteService.unLink(id));
     } catch (Exception e) {
       LOGGER.error(e.getMessage());
       return ResponseEntity.badRequest().build();

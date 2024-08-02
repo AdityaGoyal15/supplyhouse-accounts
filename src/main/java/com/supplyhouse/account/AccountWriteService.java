@@ -9,9 +9,7 @@ public interface AccountWriteService {
 
   Account update(Long id, UpdateAccountDTO updateAccountDTO);
 
-  Account link(Long id, Long businessAccountId);
-
-  Account unLink(Long id, Long businessAccountId);
-
   Account upgrade(Long id);
+
+  Account unLink(Long id);
 }
