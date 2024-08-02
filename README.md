@@ -2,7 +2,8 @@
 
 **SupplyHouse** is an e-commerce website that allows customers to create accounts and view their order history. Our
 customers are either **individuals or businesses**. Currently, a business can have multiple employees place orders with
-us, thus needing multiple accounts. We want to develop a new functionality to link those accounts, thereafter **subaccounts**,
+us, thus needing multiple accounts. We want to develop a new functionality to link those accounts, thereafter *
+*subaccounts**,
 to a common business account, thereafter **business owner account**.
 
 For example, Bob has his own business and an account with SupplyHouse. His employees, Jane and Jack, also have their own
@@ -34,7 +35,8 @@ Following is database model supporting the hierarchy and robust operations on Su
 
 - The APIs have been documented in **Swagger** interface which can be accessed
   via `http://localhost:9082/swagger-ui/index.html`.
-- Additionally, a collection of APIs exported from **Postman** client has also been included here.
+- Additionally, a collection of APIs exported from **Postman** client has also been
+  included [here](api_collection/Supply%20House%20Accounts.postman_collection.json).
 - A `puml` file has been included here to generate class diagram via **PlantUML** plugin.
 - An executable sql file has been included [here](src%2Fmain%2Fresources%2Fschema.sql).
 
@@ -57,6 +59,8 @@ Following is database model supporting the hierarchy and robust operations on Su
 - Start the application from `AccountsApplication` class.
 - If you do not have client installed to test the APIs, please install one e.g. **Postman**, **Insomnia**. Else, if you
   are familiar with **Swagger**, please use the link `` to access **Swagger UI** to test the APIs.
-- To help you more, an API collection exported from **Postman** has been included here in this project.
+- To help you more, an API collection exported from **Postman** has been
+  included [here](api_collection/Supply%20House%20Accounts.postman_collection.json) in this
+  project.
 
 At last when satisfied, cheers!
